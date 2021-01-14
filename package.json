@@ -1,0 +1,14 @@
+{
+  "name": "rayai",
+  "version": "0.0.1",
+  "description": "A personal discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "rayai"
+  },
+  "author": "Raymond Rambo",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
