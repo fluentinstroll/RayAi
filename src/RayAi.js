@@ -1,17 +1,21 @@
 // Client variables
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const fs = require('fs');
 
 // Command variables
 const search = require('./commands/search');
 const help = require('./commands/help');
 const nyaa = require('./commands/nyaa');
 
-// bot token TODO: (how to keep this secret?)
-const bot_token = 'Nzk5Mjk1MzI4NjExNTk4Mzc3.YABfyA.J_wcZ16bX28U9qxigFT7e0R_MsA';
+let bot_token;
 
-// login to the server with the bot token
-client.login(bot_token);
+//read a file called bot_token.txt that has only the token
+fs.readFile('./bot_token.txt', (err, data) => {
+    if(err) throw err;
+    bot_token = data.toString();
+    client.login(bot_token);
+});
 
 client.on('ready', () => {
 
