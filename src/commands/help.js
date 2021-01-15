@@ -1,6 +1,6 @@
 
 
-exports.sendMessage = (arguments, receivedMessage) => {
+exports.sendMessage = (arguments) => {
     if(arguments.length > 0) {
         return('It looks like you might need help with ' + arguments)
     } else {

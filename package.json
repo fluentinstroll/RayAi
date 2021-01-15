@@ -4,11 +4,16 @@
   "description": "A personal discord bot",
   "main": "index.js",
   "scripts": {
-    "test": "rayai"
+    "test": "rayai",
+    "prettier": "prettier --write ."
   },
   "author": "Raymond Rambo",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "nyaapi": "^2.3.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
