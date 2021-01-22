@@ -1,4 +1,3 @@
-const { Message } = require('discord.js');
 const { si } = require('nyaapi');
 
 exports.sendMessage = async (arguments) => {
@@ -13,10 +12,11 @@ exports.sendMessage = async (arguments) => {
         
         data.forEach((data, index) => {
             //console.log("name: " + data.name + " link: " + data.torrent); //testing
-            animeNames[index] = data.name.toString() + "\n";
+            animeNames[index] = data.name + "\n";
             animeLinks[index] = "link: " + data.torrent + "\n";
         });
-        console.log(animeNames);
+        //console.log("animeNames: "+ animeNames);
+        
     })
     .catch((err) => {
         console.log('*********ERROR*****************\n');
@@ -24,16 +24,5 @@ exports.sendMessage = async (arguments) => {
         console.log('*******************************\n');
     })
 
-    return(formatMessage(animeNames));
-
-}
-
-formatMessage = (anime) => {
-    let message = '';
-    //build a message out of the list of shows
-    anime.forEach((show) => {
-        message += show;
-    });
-    //remove commas somehow
-    return("Found some anime for you: \n" + "```" + message + "```")
+    return animeNames;
 }

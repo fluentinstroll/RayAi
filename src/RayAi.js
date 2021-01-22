@@ -27,18 +27,21 @@ client.on('ready', () => {
     generalChannel.send('Hello, world!');
 });
 
-client.on('message', (receivedMessage) => {
+client.on('message', async (receivedMessage) => {
     //prevent bot from responding to its own messages
     //there might be a better way
     if(receivedMessage.author == client.user){
         return;
     }
     
-
     //if the bot command is mentioned...
     if(receivedMessage.content.startsWith('ai')){
-        processCommand(receivedMessage);
+        let message = await processCommand(receivedMessage);
+
+        console.log('message: ' + message); // testing
+        receivedMessage.reply(message);
     }
+
 })
 
 processCommand = (receivedMessage) => {
@@ -56,22 +59,27 @@ processCommand = (receivedMessage) => {
     console.log("Arguments: " + arguments) // There may not be any arguments
 
     if (primaryCommand == "help") {
-        helpCommand(arguments, receivedMessage)
+        return helpCommand(arguments)
     } else if (primaryCommand == "nyaa") {
-        nyaaCommand(arguments, receivedMessage);
+        return nyaaCommand(arguments);
     } else {
-        receivedMessage.channel.send("I don't understand the command. Try `ai help`")
+        return "I don't understand the command. Try `ai help`";
     }
 }
 
-helpCommand = (arguments, receivedMessage) => {
+helpCommand = (arguments) => {
     let message = help.sendMessage(arguments);
-    receivedMessage.channel.send(message);
+    return message;
 }
 
-nyaaCommand = async (arguments, receivedMessage) => {
-    let message = await nyaa.sendMessage(arguments);
-    receivedMessage.channel.send(message);
+nyaaCommand = async (arguments) => {
+    let list = await nyaa.sendMessage(arguments);
+    let message = '';
+    list.forEach(data => {
+        message += data;
+    })
+    
+    return("```" + message + "```");
 }
 
 
