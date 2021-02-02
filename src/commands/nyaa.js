@@ -23,6 +23,6 @@ exports.sendMessage = async (arguments) => {
         console.log(err);
         console.log('*******************************\n');
     })
-
+    console.log(typeof animeNames);
     return animeNames;
 }

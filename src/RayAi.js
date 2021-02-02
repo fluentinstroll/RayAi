@@ -10,6 +10,7 @@ const nyaa = require('./commands/nyaa');
 
 let bot_token;
 
+
 //read a file called bot_token.txt that has only the token
 fs.readFile('./bot_token.txt', (err, data) => {
     if(err) throw err;
@@ -23,6 +24,7 @@ client.on('ready', () => {
 
     // get channel id
     let generalChannel = client.channels.cache.get('772109746126979134');
+    
     //.send method sends messages
     generalChannel.send('Hello, world!');
 });
@@ -34,14 +36,44 @@ client.on('message', async (receivedMessage) => {
         return;
     }
     
+    
+
     //if the bot command is mentioned...
     if(receivedMessage.content.startsWith('ai')){
-        let message = await processCommand(receivedMessage);
-
-        console.log('message: ' + message); // testing
-        receivedMessage.reply(message);
+        let m = await processCommand(receivedMessage)
+        // TODO: this needs to be handled outside this function
+        receivedMessage.channel.send(m
+            + "If you want to get the link to any of these, please react with the appropriate number."
+            ).then(sentEmbed => {
+            sentEmbed.react("1️⃣");
+            sentEmbed.react("2️⃣");
+            sentEmbed.react("3️⃣");
+            sentEmbed.react("4️⃣");
+            sentEmbed.react("5️⃣");
+            sentEmbed.react("6️⃣");
+            sentEmbed.react("7️⃣");
+            sentEmbed.react("8️⃣");
+            sentEmbed.react("9️⃣");
+            sentEmbed.react("🔟");
+        })
     }
 
+})
+
+client.on('messageReactionAdd', (reaction, user) => {
+    if(reaction.me){
+        return;
+    }
+    
+    let message = reaction.message,
+    emoji = reaction.emoji;
+
+    if(emoji.toString() === "1️⃣"){
+        
+        message.channel.send("Clicked 1!");
+    } else {
+        message.channel.send("nope!");
+    }
 })
 
 processCommand = (receivedMessage) => {
