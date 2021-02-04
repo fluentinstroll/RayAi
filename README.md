@@ -5,6 +5,6 @@ RayAi is being built to facilitate whatever random things I want to have access 
 
 Features included:
  nyaa.si lookup:
-  type ``ai nyaa <search string>`` to get the first 10 results of the nyaa.si search
-  react to the search to get a torrent link to the cooresponding item
+  - type ``ai nyaa <search string>`` to get the first 10 results of the nyaa.si search
+   - react to the search to get a torrent link to the cooresponding item
 
