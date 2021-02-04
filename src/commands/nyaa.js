@@ -1,8 +1,7 @@
 const { si } = require('nyaapi');
 
-exports.sendMessage = async (arguments) => {
+exports.getNames = async (arguments) => {
     let animeNames = []; //store names of anime we search for
-    let animeLinks =[]; //store links to torrents of anime we search for
     let searchTerm = arguments.toString(); //make sure our arguments are String values
     
     console.log("searchTerm: " + searchTerm + "\n");
@@ -13,7 +12,6 @@ exports.sendMessage = async (arguments) => {
         data.forEach((data, index) => {
             //console.log("name: " + data.name + " link: " + data.torrent); //testing
             animeNames[index] = data.name + "\n";
-            animeLinks[index] = "link: " + data.torrent + "\n";
         });
         //console.log("animeNames: "+ animeNames);
         
@@ -23,6 +21,26 @@ exports.sendMessage = async (arguments) => {
         console.log(err);
         console.log('*******************************\n');
     })
-    console.log(typeof animeNames);
+
     return animeNames;
+}
+
+exports.getLink = async (anime) => {    
+        let animeLink;
+        let searchTerm = anime.toString();
+
+        await si.search(searchTerm, 1, opts = {filter: 2})
+        .then((data) => {
+            animeLink = data[0].torrent;
+            console.log(animeLink)
+        })
+        .catch((err) => {
+            console.log('*********ERROR*****************\n');
+            console.log(err);
+            console.log('*******************************\n');
+            return;
+        })
+
+    return animeLink;
+    
 }

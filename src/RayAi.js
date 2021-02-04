@@ -60,21 +60,51 @@ client.on('message', async (receivedMessage) => {
 
 })
 
-client.on('messageReactionAdd', (reaction, user) => {
+client.on('messageReactionAdd', async (reaction) => {
     if(reaction.me){
         return;
     }
     
-    let message = reaction.message,
-    emoji = reaction.emoji;
-
-    if(emoji.toString() === "1️⃣"){
-        
-        message.channel.send("Clicked 1!");
-    } else {
-        message.channel.send("nope!");
+    let message = reaction.message;
+    let emoji = reaction.emoji;
+    let index;
+    //switch to find the right emoji
+    switch(emoji.toString()){
+        case "1️⃣":
+            index = 0;
+            break;
+        case "2️⃣":
+            index = 1;
+            break;
+        case "3️⃣":
+            index = 2;
+            break;
+        case "4️⃣":
+            index = 3;
+            break;
+        case "5️⃣":
+            index = 4;
+            break;
+        case "6️⃣":
+            index = 5;
+            break;
+        case "7️⃣":
+            index = 6;
+            break;
+        case "8️⃣":
+            index = 7;
+            break;
+        case "9️⃣":
+            index = 8;
+            break;
+        case "🔟":
+            index = 9;
     }
-})
+        console.log(index)
+        let link = await nyaaGetLink(message.toString(), index);
+        message.channel.send(link);
+    }
+)
 
 processCommand = (receivedMessage) => {
     let fullCommand = receivedMessage.content.substr(2) // Remove the leading 'ai'
@@ -93,6 +123,7 @@ processCommand = (receivedMessage) => {
     if (primaryCommand == "help") {
         return helpCommand(arguments)
     } else if (primaryCommand == "nyaa") {
+        
         return nyaaCommand(arguments);
     } else {
         return "I don't understand the command. Try `ai help`";
@@ -103,9 +134,9 @@ helpCommand = (arguments) => {
     let message = help.sendMessage(arguments);
     return message;
 }
-
+/*function can be used for either getting list of anime or getting link */
 nyaaCommand = async (arguments) => {
-    let list = await nyaa.sendMessage(arguments);
+    let list = await nyaa.getNames(arguments);
     let message = '';
     list.forEach(data => {
         message += data;
@@ -113,5 +144,16 @@ nyaaCommand = async (arguments) => {
     
     return("```" + message + "```");
 }
+
+nyaaGetLink = async (animeNames, index) => {
+    console.log(animeNames)
+    let name = animeNames.slice(3, -89) //specific to cut off the ```quotes``` and the trailing message to get only the names
+    console.log(name);
+    let nameArray = name.split("\n");
+    console.log(nameArray[index])
+    let link = await nyaa.getLink(nameArray[index]);
+    return nameArray[index] + link;
+}
+
 
 
